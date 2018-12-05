@@ -1,8 +1,6 @@
 package com.gb;
 
 
-import com.gb.mapper.UserMapper;
-import com.gb.po.User;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -20,9 +18,6 @@ public class TestMybatis {
 
     @Test
     public void test1() {
-        UserMapper userMapper = (UserMapper) applicationContext.getBean("userMapper");
-        User user= userMapper.findUserById(96);
-        System.out.println(user);
     }
 
 }

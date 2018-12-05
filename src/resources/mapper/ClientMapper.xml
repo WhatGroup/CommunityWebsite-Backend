@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gb.mapper.ClientMapper">
+  <resultMap id="BaseResultMap" type="com.gb.po.Client">
+    <id column="clientNo" jdbcType="INTEGER" property="clientNo" />
+    <result column="clientPass" jdbcType="VARCHAR" property="clientPass" />
+    <result column="clientName" jdbcType="VARCHAR" property="clientName" />
+    <result column="sex" jdbcType="INTEGER" property="sex" />
+    <result column="birthday" jdbcType="DATE" property="birthday" />
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="idCard" jdbcType="VARCHAR" property="idCard" />
+    <result column="grade" jdbcType="INTEGER" property="grade" />
+    <result column="createAt" jdbcType="TIMESTAMP" property="createAt" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.gb.po.Client">
+    <result column="address" jdbcType="LONGVARCHAR" property="address" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    clientNo, clientPass, clientName, sex, birthday, phone, email, idCard, grade, createAt
+  </sql>
+  <sql id="Blob_Column_List">
+    address
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.ClientExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from client
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.gb.po.ClientExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from client
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from client
+    where clientNo = #{clientNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from client
+    where clientNo = #{clientNo,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gb.po.ClientExample">
+    delete from client
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gb.po.Client">
+    insert into client (clientNo, clientPass, clientName, 
+      sex, birthday, phone, 
+      email, idCard, grade, 
+      createAt, address)
+    values (#{clientNo,jdbcType=INTEGER}, #{clientPass,jdbcType=VARCHAR}, #{clientName,jdbcType=VARCHAR}, 
+      #{sex,jdbcType=INTEGER}, #{birthday,jdbcType=DATE}, #{phone,jdbcType=VARCHAR}, 
+      #{email,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{grade,jdbcType=INTEGER}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{address,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gb.po.Client">
+    insert into client
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="clientNo != null">
+        clientNo,
+      </if>
+      <if test="clientPass != null">
+        clientPass,
+      </if>
+      <if test="clientName != null">
+        clientName,
+      </if>
+      <if test="sex != null">
+        sex,
+      </if>
+      <if test="birthday != null">
+        birthday,
+      </if>
+      <if test="phone != null">
+        phone,
+      </if>
+      <if test="email != null">
+        email,
+      </if>
+      <if test="idCard != null">
+        idCard,
+      </if>
+      <if test="grade != null">
+        grade,
+      </if>
+      <if test="createAt != null">
+        createAt,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="clientNo != null">
+        #{clientNo,jdbcType=INTEGER},
+      </if>
+      <if test="clientPass != null">
+        #{clientPass,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null">
+        #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="phone != null">
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gb.po.ClientExample" resultType="java.lang.Long">
+    select count(*) from client
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update client
+    <set>
+      <if test="record.clientNo != null">
+        clientNo = #{record.clientNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.clientPass != null">
+        clientPass = #{record.clientPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.clientName != null">
+        clientName = #{record.clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sex != null">
+        sex = #{record.sex,jdbcType=INTEGER},
+      </if>
+      <if test="record.birthday != null">
+        birthday = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.phone != null">
+        phone = #{record.phone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null">
+        email = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idCard != null">
+        idCard = #{record.idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.grade != null">
+        grade = #{record.grade,jdbcType=INTEGER},
+      </if>
+      <if test="record.createAt != null">
+        createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update client
+    set clientNo = #{record.clientNo,jdbcType=INTEGER},
+      clientPass = #{record.clientPass,jdbcType=VARCHAR},
+      clientName = #{record.clientName,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=INTEGER},
+      birthday = #{record.birthday,jdbcType=DATE},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      idCard = #{record.idCard,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=INTEGER},
+      createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      address = #{record.address,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update client
+    set clientNo = #{record.clientNo,jdbcType=INTEGER},
+      clientPass = #{record.clientPass,jdbcType=VARCHAR},
+      clientName = #{record.clientName,jdbcType=VARCHAR},
+      sex = #{record.sex,jdbcType=INTEGER},
+      birthday = #{record.birthday,jdbcType=DATE},
+      phone = #{record.phone,jdbcType=VARCHAR},
+      email = #{record.email,jdbcType=VARCHAR},
+      idCard = #{record.idCard,jdbcType=VARCHAR},
+      grade = #{record.grade,jdbcType=INTEGER},
+      createAt = #{record.createAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gb.po.Client">
+    update client
+    <set>
+      <if test="clientPass != null">
+        clientPass = #{clientPass,jdbcType=VARCHAR},
+      </if>
+      <if test="clientName != null">
+        clientName = #{clientName,jdbcType=VARCHAR},
+      </if>
+      <if test="sex != null">
+        sex = #{sex,jdbcType=INTEGER},
+      </if>
+      <if test="birthday != null">
+        birthday = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="phone != null">
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null">
+        email = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="idCard != null">
+        idCard = #{idCard,jdbcType=VARCHAR},
+      </if>
+      <if test="grade != null">
+        grade = #{grade,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null">
+        createAt = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where clientNo = #{clientNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gb.po.Client">
+    update client
+    set clientPass = #{clientPass,jdbcType=VARCHAR},
+      clientName = #{clientName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=DATE},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      idCard = #{idCard,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=INTEGER},
+      createAt = #{createAt,jdbcType=TIMESTAMP},
+      address = #{address,jdbcType=LONGVARCHAR}
+    where clientNo = #{clientNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gb.po.Client">
+    update client
+    set clientPass = #{clientPass,jdbcType=VARCHAR},
+      clientName = #{clientName,jdbcType=VARCHAR},
+      sex = #{sex,jdbcType=INTEGER},
+      birthday = #{birthday,jdbcType=DATE},
+      phone = #{phone,jdbcType=VARCHAR},
+      email = #{email,jdbcType=VARCHAR},
+      idCard = #{idCard,jdbcType=VARCHAR},
+      grade = #{grade,jdbcType=INTEGER},
+      createAt = #{createAt,jdbcType=TIMESTAMP}
+    where clientNo = #{clientNo,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -1,0 +1,441 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gb.mapper.EventMapper">
+  <resultMap id="BaseResultMap" type="com.gb.po.Event">
+    <id column="eventNo" jdbcType="INTEGER" property="eventNo" />
+    <result column="workerNo" jdbcType="VARCHAR" property="workerNo" />
+    <result column="eventTitle" jdbcType="VARCHAR" property="eventTitle" />
+    <result column="applyEnd" jdbcType="DATE" property="applyEnd" />
+    <result column="trainEnd" jdbcType="DATE" property="trainEnd" />
+    <result column="eventEnd" jdbcType="DATE" property="eventEnd" />
+    <result column="ifTrain" jdbcType="INTEGER" property="ifTrain" />
+    <result column="typeNo" jdbcType="INTEGER" property="typeNo" />
+    <result column="recruitNum" jdbcType="INTEGER" property="recruitNum" />
+    <result column="applyNum" jdbcType="INTEGER" property="applyNum" />
+    <result column="createAt" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="editAt" jdbcType="TIMESTAMP" property="editAt" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.gb.po.Event">
+    <result column="evenContent" jdbcType="LONGVARCHAR" property="evenContent" />
+    <result column="eventPosition" jdbcType="LONGVARCHAR" property="eventPosition" />
+    <result column="recipient" jdbcType="LONGVARCHAR" property="recipient" />
+    <result column="recruitContent" jdbcType="LONGVARCHAR" property="recruitContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    eventNo, workerNo, eventTitle, applyEnd, trainEnd, eventEnd, ifTrain, typeNo, recruitNum, 
+    applyNum, createAt, editAt
+  </sql>
+  <sql id="Blob_Column_List">
+    evenContent, eventPosition, recipient, recruitContent
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.EventExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.gb.po.EventExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from event
+    where eventNo = #{eventNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from event
+    where eventNo = #{eventNo,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gb.po.EventExample">
+    delete from event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gb.po.Event">
+    insert into event (eventNo, workerNo, eventTitle, 
+      applyEnd, trainEnd, eventEnd, 
+      ifTrain, typeNo, recruitNum, 
+      applyNum, createAt, editAt, 
+      evenContent, eventPosition, recipient, 
+      recruitContent)
+    values (#{eventNo,jdbcType=INTEGER}, #{workerNo,jdbcType=VARCHAR}, #{eventTitle,jdbcType=VARCHAR}, 
+      #{applyEnd,jdbcType=DATE}, #{trainEnd,jdbcType=DATE}, #{eventEnd,jdbcType=DATE}, 
+      #{ifTrain,jdbcType=INTEGER}, #{typeNo,jdbcType=INTEGER}, #{recruitNum,jdbcType=INTEGER}, 
+      #{applyNum,jdbcType=INTEGER}, #{createAt,jdbcType=TIMESTAMP}, #{editAt,jdbcType=TIMESTAMP}, 
+      #{evenContent,jdbcType=LONGVARCHAR}, #{eventPosition,jdbcType=LONGVARCHAR}, #{recipient,jdbcType=LONGVARCHAR}, 
+      #{recruitContent,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.gb.po.Event">
+    insert into event
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="eventNo != null">
+        eventNo,
+      </if>
+      <if test="workerNo != null">
+        workerNo,
+      </if>
+      <if test="eventTitle != null">
+        eventTitle,
+      </if>
+      <if test="applyEnd != null">
+        applyEnd,
+      </if>
+      <if test="trainEnd != null">
+        trainEnd,
+      </if>
+      <if test="eventEnd != null">
+        eventEnd,
+      </if>
+      <if test="ifTrain != null">
+        ifTrain,
+      </if>
+      <if test="typeNo != null">
+        typeNo,
+      </if>
+      <if test="recruitNum != null">
+        recruitNum,
+      </if>
+      <if test="applyNum != null">
+        applyNum,
+      </if>
+      <if test="createAt != null">
+        createAt,
+      </if>
+      <if test="editAt != null">
+        editAt,
+      </if>
+      <if test="evenContent != null">
+        evenContent,
+      </if>
+      <if test="eventPosition != null">
+        eventPosition,
+      </if>
+      <if test="recipient != null">
+        recipient,
+      </if>
+      <if test="recruitContent != null">
+        recruitContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="eventNo != null">
+        #{eventNo,jdbcType=INTEGER},
+      </if>
+      <if test="workerNo != null">
+        #{workerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="eventTitle != null">
+        #{eventTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="applyEnd != null">
+        #{applyEnd,jdbcType=DATE},
+      </if>
+      <if test="trainEnd != null">
+        #{trainEnd,jdbcType=DATE},
+      </if>
+      <if test="eventEnd != null">
+        #{eventEnd,jdbcType=DATE},
+      </if>
+      <if test="ifTrain != null">
+        #{ifTrain,jdbcType=INTEGER},
+      </if>
+      <if test="typeNo != null">
+        #{typeNo,jdbcType=INTEGER},
+      </if>
+      <if test="recruitNum != null">
+        #{recruitNum,jdbcType=INTEGER},
+      </if>
+      <if test="applyNum != null">
+        #{applyNum,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editAt != null">
+        #{editAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evenContent != null">
+        #{evenContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="eventPosition != null">
+        #{eventPosition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="recipient != null">
+        #{recipient,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="recruitContent != null">
+        #{recruitContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gb.po.EventExample" resultType="java.lang.Long">
+    select count(*) from event
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update event
+    <set>
+      <if test="record.eventNo != null">
+        eventNo = #{record.eventNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.workerNo != null">
+        workerNo = #{record.workerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eventTitle != null">
+        eventTitle = #{record.eventTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyEnd != null">
+        applyEnd = #{record.applyEnd,jdbcType=DATE},
+      </if>
+      <if test="record.trainEnd != null">
+        trainEnd = #{record.trainEnd,jdbcType=DATE},
+      </if>
+      <if test="record.eventEnd != null">
+        eventEnd = #{record.eventEnd,jdbcType=DATE},
+      </if>
+      <if test="record.ifTrain != null">
+        ifTrain = #{record.ifTrain,jdbcType=INTEGER},
+      </if>
+      <if test="record.typeNo != null">
+        typeNo = #{record.typeNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.recruitNum != null">
+        recruitNum = #{record.recruitNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.applyNum != null">
+        applyNum = #{record.applyNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.createAt != null">
+        createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.editAt != null">
+        editAt = #{record.editAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.evenContent != null">
+        evenContent = #{record.evenContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.eventPosition != null">
+        eventPosition = #{record.eventPosition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.recipient != null">
+        recipient = #{record.recipient,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.recruitContent != null">
+        recruitContent = #{record.recruitContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update event
+    set eventNo = #{record.eventNo,jdbcType=INTEGER},
+      workerNo = #{record.workerNo,jdbcType=VARCHAR},
+      eventTitle = #{record.eventTitle,jdbcType=VARCHAR},
+      applyEnd = #{record.applyEnd,jdbcType=DATE},
+      trainEnd = #{record.trainEnd,jdbcType=DATE},
+      eventEnd = #{record.eventEnd,jdbcType=DATE},
+      ifTrain = #{record.ifTrain,jdbcType=INTEGER},
+      typeNo = #{record.typeNo,jdbcType=INTEGER},
+      recruitNum = #{record.recruitNum,jdbcType=INTEGER},
+      applyNum = #{record.applyNum,jdbcType=INTEGER},
+      createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      editAt = #{record.editAt,jdbcType=TIMESTAMP},
+      evenContent = #{record.evenContent,jdbcType=LONGVARCHAR},
+      eventPosition = #{record.eventPosition,jdbcType=LONGVARCHAR},
+      recipient = #{record.recipient,jdbcType=LONGVARCHAR},
+      recruitContent = #{record.recruitContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update event
+    set eventNo = #{record.eventNo,jdbcType=INTEGER},
+      workerNo = #{record.workerNo,jdbcType=VARCHAR},
+      eventTitle = #{record.eventTitle,jdbcType=VARCHAR},
+      applyEnd = #{record.applyEnd,jdbcType=DATE},
+      trainEnd = #{record.trainEnd,jdbcType=DATE},
+      eventEnd = #{record.eventEnd,jdbcType=DATE},
+      ifTrain = #{record.ifTrain,jdbcType=INTEGER},
+      typeNo = #{record.typeNo,jdbcType=INTEGER},
+      recruitNum = #{record.recruitNum,jdbcType=INTEGER},
+      applyNum = #{record.applyNum,jdbcType=INTEGER},
+      createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      editAt = #{record.editAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gb.po.Event">
+    update event
+    <set>
+      <if test="workerNo != null">
+        workerNo = #{workerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="eventTitle != null">
+        eventTitle = #{eventTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="applyEnd != null">
+        applyEnd = #{applyEnd,jdbcType=DATE},
+      </if>
+      <if test="trainEnd != null">
+        trainEnd = #{trainEnd,jdbcType=DATE},
+      </if>
+      <if test="eventEnd != null">
+        eventEnd = #{eventEnd,jdbcType=DATE},
+      </if>
+      <if test="ifTrain != null">
+        ifTrain = #{ifTrain,jdbcType=INTEGER},
+      </if>
+      <if test="typeNo != null">
+        typeNo = #{typeNo,jdbcType=INTEGER},
+      </if>
+      <if test="recruitNum != null">
+        recruitNum = #{recruitNum,jdbcType=INTEGER},
+      </if>
+      <if test="applyNum != null">
+        applyNum = #{applyNum,jdbcType=INTEGER},
+      </if>
+      <if test="createAt != null">
+        createAt = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editAt != null">
+        editAt = #{editAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="evenContent != null">
+        evenContent = #{evenContent,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="eventPosition != null">
+        eventPosition = #{eventPosition,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="recipient != null">
+        recipient = #{recipient,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="recruitContent != null">
+        recruitContent = #{recruitContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where eventNo = #{eventNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gb.po.Event">
+    update event
+    set workerNo = #{workerNo,jdbcType=VARCHAR},
+      eventTitle = #{eventTitle,jdbcType=VARCHAR},
+      applyEnd = #{applyEnd,jdbcType=DATE},
+      trainEnd = #{trainEnd,jdbcType=DATE},
+      eventEnd = #{eventEnd,jdbcType=DATE},
+      ifTrain = #{ifTrain,jdbcType=INTEGER},
+      typeNo = #{typeNo,jdbcType=INTEGER},
+      recruitNum = #{recruitNum,jdbcType=INTEGER},
+      applyNum = #{applyNum,jdbcType=INTEGER},
+      createAt = #{createAt,jdbcType=TIMESTAMP},
+      editAt = #{editAt,jdbcType=TIMESTAMP},
+      evenContent = #{evenContent,jdbcType=LONGVARCHAR},
+      eventPosition = #{eventPosition,jdbcType=LONGVARCHAR},
+      recipient = #{recipient,jdbcType=LONGVARCHAR},
+      recruitContent = #{recruitContent,jdbcType=LONGVARCHAR}
+    where eventNo = #{eventNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gb.po.Event">
+    update event
+    set workerNo = #{workerNo,jdbcType=VARCHAR},
+      eventTitle = #{eventTitle,jdbcType=VARCHAR},
+      applyEnd = #{applyEnd,jdbcType=DATE},
+      trainEnd = #{trainEnd,jdbcType=DATE},
+      eventEnd = #{eventEnd,jdbcType=DATE},
+      ifTrain = #{ifTrain,jdbcType=INTEGER},
+      typeNo = #{typeNo,jdbcType=INTEGER},
+      recruitNum = #{recruitNum,jdbcType=INTEGER},
+      applyNum = #{applyNum,jdbcType=INTEGER},
+      createAt = #{createAt,jdbcType=TIMESTAMP},
+      editAt = #{editAt,jdbcType=TIMESTAMP}
+    where eventNo = #{eventNo,jdbcType=INTEGER}
+  </update>
+</mapper>

@@ -10,6 +10,9 @@
         <setting name="aggressiveLazyLoading" value="false"/>
         <!-- 开启二级缓存 -->
         <setting name="cacheEnabled" value="true"/>
+
+        <!--https://blog.csdn.net/hao134838/article/details/78726410-->
+        <!--<setting name="callSettersOnNulls" value="true"/>-->
     </settings>
 
     <!-- 别名的定义 -->

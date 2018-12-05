@@ -1,0 +1,475 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gb.mapper.CompanyMapper">
+  <resultMap id="BaseResultMap" type="com.gb.po.Company">
+    <id column="companyNo" jdbcType="INTEGER" property="companyNo" />
+    <result column="companyName" jdbcType="VARCHAR" property="companyName" />
+    <result column="companyPhone" jdbcType="VARCHAR" property="companyPhone" />
+    <result column="workerName" jdbcType="VARCHAR" property="workerName" />
+    <result column="workerSex" jdbcType="INTEGER" property="workerSex" />
+    <result column="workerPhone" jdbcType="VARCHAR" property="workerPhone" />
+    <result column="workerIdcard" jdbcType="VARCHAR" property="workerIdcard" />
+    <result column="workerEmail" jdbcType="VARCHAR" property="workerEmail" />
+    <result column="companyEmail" jdbcType="VARCHAR" property="companyEmail" />
+    <result column="password" jdbcType="VARCHAR" property="password" />
+    <result column="legalName" jdbcType="VARCHAR" property="legalName" />
+    <result column="legalIdcard" jdbcType="VARCHAR" property="legalIdcard" />
+    <result column="createAt" jdbcType="TIMESTAMP" property="createAt" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.gb.po.Company">
+    <result column="address" jdbcType="LONGVARCHAR" property="address" />
+    <result column="legalIdPic1" jdbcType="LONGVARCHAR" property="legalIdPic1" />
+    <result column="legalIdPic0" jdbcType="LONGVARCHAR" property="legalIdPic0" />
+    <result column="licensePic1" jdbcType="LONGVARCHAR" property="licensePic1" />
+    <result column="licensePic0" jdbcType="LONGVARCHAR" property="licensePic0" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    companyNo, companyName, companyPhone, workerName, workerSex, workerPhone, workerIdcard, 
+    workerEmail, companyEmail, password, legalName, legalIdcard, createAt
+  </sql>
+  <sql id="Blob_Column_List">
+    address, legalIdPic1, legalIdPic0, licensePic1, licensePic0
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.CompanyExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.gb.po.CompanyExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from company
+    where companyNo = #{companyNo,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from company
+    where companyNo = #{companyNo,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gb.po.CompanyExample">
+    delete from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gb.po.Company">
+    insert into company (companyNo, companyName, companyPhone, 
+      workerName, workerSex, workerPhone, 
+      workerIdcard, workerEmail, companyEmail, 
+      password, legalName, legalIdcard, 
+      createAt, address, legalIdPic1, 
+      legalIdPic0, licensePic1, licensePic0
+      )
+    values (#{companyNo,jdbcType=INTEGER}, #{companyName,jdbcType=VARCHAR}, #{companyPhone,jdbcType=VARCHAR}, 
+      #{workerName,jdbcType=VARCHAR}, #{workerSex,jdbcType=INTEGER}, #{workerPhone,jdbcType=VARCHAR}, 
+      #{workerIdcard,jdbcType=VARCHAR}, #{workerEmail,jdbcType=VARCHAR}, #{companyEmail,jdbcType=VARCHAR}, 
+      #{password,jdbcType=VARCHAR}, #{legalName,jdbcType=VARCHAR}, #{legalIdcard,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{address,jdbcType=LONGVARCHAR}, #{legalIdPic1,jdbcType=LONGVARCHAR}, 
+      #{legalIdPic0,jdbcType=LONGVARCHAR}, #{licensePic1,jdbcType=LONGVARCHAR}, #{licensePic0,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gb.po.Company">
+    insert into company
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="companyNo != null">
+        companyNo,
+      </if>
+      <if test="companyName != null">
+        companyName,
+      </if>
+      <if test="companyPhone != null">
+        companyPhone,
+      </if>
+      <if test="workerName != null">
+        workerName,
+      </if>
+      <if test="workerSex != null">
+        workerSex,
+      </if>
+      <if test="workerPhone != null">
+        workerPhone,
+      </if>
+      <if test="workerIdcard != null">
+        workerIdcard,
+      </if>
+      <if test="workerEmail != null">
+        workerEmail,
+      </if>
+      <if test="companyEmail != null">
+        companyEmail,
+      </if>
+      <if test="password != null">
+        password,
+      </if>
+      <if test="legalName != null">
+        legalName,
+      </if>
+      <if test="legalIdcard != null">
+        legalIdcard,
+      </if>
+      <if test="createAt != null">
+        createAt,
+      </if>
+      <if test="address != null">
+        address,
+      </if>
+      <if test="legalIdPic1 != null">
+        legalIdPic1,
+      </if>
+      <if test="legalIdPic0 != null">
+        legalIdPic0,
+      </if>
+      <if test="licensePic1 != null">
+        licensePic1,
+      </if>
+      <if test="licensePic0 != null">
+        licensePic0,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="companyNo != null">
+        #{companyNo,jdbcType=INTEGER},
+      </if>
+      <if test="companyName != null">
+        #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone != null">
+        #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="workerName != null">
+        #{workerName,jdbcType=VARCHAR},
+      </if>
+      <if test="workerSex != null">
+        #{workerSex,jdbcType=INTEGER},
+      </if>
+      <if test="workerPhone != null">
+        #{workerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="workerIdcard != null">
+        #{workerIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="workerEmail != null">
+        #{workerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyEmail != null">
+        #{companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalIdcard != null">
+        #{legalIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        #{address,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="legalIdPic1 != null">
+        #{legalIdPic1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="legalIdPic0 != null">
+        #{legalIdPic0,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="licensePic1 != null">
+        #{licensePic1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="licensePic0 != null">
+        #{licensePic0,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gb.po.CompanyExample" resultType="java.lang.Long">
+    select count(*) from company
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update company
+    <set>
+      <if test="record.companyNo != null">
+        companyNo = #{record.companyNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.companyName != null">
+        companyName = #{record.companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyPhone != null">
+        companyPhone = #{record.companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerName != null">
+        workerName = #{record.workerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerSex != null">
+        workerSex = #{record.workerSex,jdbcType=INTEGER},
+      </if>
+      <if test="record.workerPhone != null">
+        workerPhone = #{record.workerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerIdcard != null">
+        workerIdcard = #{record.workerIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerEmail != null">
+        workerEmail = #{record.workerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyEmail != null">
+        companyEmail = #{record.companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalName != null">
+        legalName = #{record.legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalIdcard != null">
+        legalIdcard = #{record.legalIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createAt != null">
+        createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.address != null">
+        address = #{record.address,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.legalIdPic1 != null">
+        legalIdPic1 = #{record.legalIdPic1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.legalIdPic0 != null">
+        legalIdPic0 = #{record.legalIdPic0,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.licensePic1 != null">
+        licensePic1 = #{record.licensePic1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.licensePic0 != null">
+        licensePic0 = #{record.licensePic0,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update company
+    set companyNo = #{record.companyNo,jdbcType=INTEGER},
+      companyName = #{record.companyName,jdbcType=VARCHAR},
+      companyPhone = #{record.companyPhone,jdbcType=VARCHAR},
+      workerName = #{record.workerName,jdbcType=VARCHAR},
+      workerSex = #{record.workerSex,jdbcType=INTEGER},
+      workerPhone = #{record.workerPhone,jdbcType=VARCHAR},
+      workerIdcard = #{record.workerIdcard,jdbcType=VARCHAR},
+      workerEmail = #{record.workerEmail,jdbcType=VARCHAR},
+      companyEmail = #{record.companyEmail,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      legalName = #{record.legalName,jdbcType=VARCHAR},
+      legalIdcard = #{record.legalIdcard,jdbcType=VARCHAR},
+      createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      address = #{record.address,jdbcType=LONGVARCHAR},
+      legalIdPic1 = #{record.legalIdPic1,jdbcType=LONGVARCHAR},
+      legalIdPic0 = #{record.legalIdPic0,jdbcType=LONGVARCHAR},
+      licensePic1 = #{record.licensePic1,jdbcType=LONGVARCHAR},
+      licensePic0 = #{record.licensePic0,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update company
+    set companyNo = #{record.companyNo,jdbcType=INTEGER},
+      companyName = #{record.companyName,jdbcType=VARCHAR},
+      companyPhone = #{record.companyPhone,jdbcType=VARCHAR},
+      workerName = #{record.workerName,jdbcType=VARCHAR},
+      workerSex = #{record.workerSex,jdbcType=INTEGER},
+      workerPhone = #{record.workerPhone,jdbcType=VARCHAR},
+      workerIdcard = #{record.workerIdcard,jdbcType=VARCHAR},
+      workerEmail = #{record.workerEmail,jdbcType=VARCHAR},
+      companyEmail = #{record.companyEmail,jdbcType=VARCHAR},
+      password = #{record.password,jdbcType=VARCHAR},
+      legalName = #{record.legalName,jdbcType=VARCHAR},
+      legalIdcard = #{record.legalIdcard,jdbcType=VARCHAR},
+      createAt = #{record.createAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gb.po.Company">
+    update company
+    <set>
+      <if test="companyName != null">
+        companyName = #{companyName,jdbcType=VARCHAR},
+      </if>
+      <if test="companyPhone != null">
+        companyPhone = #{companyPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="workerName != null">
+        workerName = #{workerName,jdbcType=VARCHAR},
+      </if>
+      <if test="workerSex != null">
+        workerSex = #{workerSex,jdbcType=INTEGER},
+      </if>
+      <if test="workerPhone != null">
+        workerPhone = #{workerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="workerIdcard != null">
+        workerIdcard = #{workerIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="workerEmail != null">
+        workerEmail = #{workerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="companyEmail != null">
+        companyEmail = #{companyEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null">
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="legalName != null">
+        legalName = #{legalName,jdbcType=VARCHAR},
+      </if>
+      <if test="legalIdcard != null">
+        legalIdcard = #{legalIdcard,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        createAt = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="address != null">
+        address = #{address,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="legalIdPic1 != null">
+        legalIdPic1 = #{legalIdPic1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="legalIdPic0 != null">
+        legalIdPic0 = #{legalIdPic0,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="licensePic1 != null">
+        licensePic1 = #{licensePic1,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="licensePic0 != null">
+        licensePic0 = #{licensePic0,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where companyNo = #{companyNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gb.po.Company">
+    update company
+    set companyName = #{companyName,jdbcType=VARCHAR},
+      companyPhone = #{companyPhone,jdbcType=VARCHAR},
+      workerName = #{workerName,jdbcType=VARCHAR},
+      workerSex = #{workerSex,jdbcType=INTEGER},
+      workerPhone = #{workerPhone,jdbcType=VARCHAR},
+      workerIdcard = #{workerIdcard,jdbcType=VARCHAR},
+      workerEmail = #{workerEmail,jdbcType=VARCHAR},
+      companyEmail = #{companyEmail,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      legalName = #{legalName,jdbcType=VARCHAR},
+      legalIdcard = #{legalIdcard,jdbcType=VARCHAR},
+      createAt = #{createAt,jdbcType=TIMESTAMP},
+      address = #{address,jdbcType=LONGVARCHAR},
+      legalIdPic1 = #{legalIdPic1,jdbcType=LONGVARCHAR},
+      legalIdPic0 = #{legalIdPic0,jdbcType=LONGVARCHAR},
+      licensePic1 = #{licensePic1,jdbcType=LONGVARCHAR},
+      licensePic0 = #{licensePic0,jdbcType=LONGVARCHAR}
+    where companyNo = #{companyNo,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gb.po.Company">
+    update company
+    set companyName = #{companyName,jdbcType=VARCHAR},
+      companyPhone = #{companyPhone,jdbcType=VARCHAR},
+      workerName = #{workerName,jdbcType=VARCHAR},
+      workerSex = #{workerSex,jdbcType=INTEGER},
+      workerPhone = #{workerPhone,jdbcType=VARCHAR},
+      workerIdcard = #{workerIdcard,jdbcType=VARCHAR},
+      workerEmail = #{workerEmail,jdbcType=VARCHAR},
+      companyEmail = #{companyEmail,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      legalName = #{legalName,jdbcType=VARCHAR},
+      legalIdcard = #{legalIdcard,jdbcType=VARCHAR},
+      createAt = #{createAt,jdbcType=TIMESTAMP}
+    where companyNo = #{companyNo,jdbcType=INTEGER}
+  </update>
+</mapper>

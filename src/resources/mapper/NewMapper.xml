@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gb.mapper.NewMapper">
+  <resultMap id="BaseResultMap" type="com.gb.po.New">
+    <id column="newsNo" jdbcType="INTEGER" property="newsNo" />
+    <id column="workerNo" jdbcType="VARCHAR" property="workerNo" />
+    <result column="newsTitle" jdbcType="VARCHAR" property="newsTitle" />
+    <result column="createAt" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="editAt" jdbcType="TIMESTAMP" property="editAt" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.gb.po.New">
+    <result column="newsContent" jdbcType="LONGVARCHAR" property="newsContent" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    newsNo, workerNo, newsTitle, createAt, editAt
+  </sql>
+  <sql id="Blob_Column_List">
+    newsContent
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.NewExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.gb.po.NewExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="map" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from news
+    where newsNo = #{newsNo,jdbcType=INTEGER}
+      and workerNo = #{workerNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="map">
+    delete from news
+    where newsNo = #{newsNo,jdbcType=INTEGER}
+      and workerNo = #{workerNo,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.gb.po.NewExample">
+    delete from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.gb.po.New">
+    insert into news (newsNo, workerNo, newsTitle, 
+      createAt, editAt, newsContent
+      )
+    values (#{newsNo,jdbcType=INTEGER}, #{workerNo,jdbcType=VARCHAR}, #{newsTitle,jdbcType=VARCHAR}, 
+      #{createAt,jdbcType=TIMESTAMP}, #{editAt,jdbcType=TIMESTAMP}, #{newsContent,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.gb.po.New">
+    insert into news
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="newsNo != null">
+        newsNo,
+      </if>
+      <if test="workerNo != null">
+        workerNo,
+      </if>
+      <if test="newsTitle != null">
+        newsTitle,
+      </if>
+      <if test="createAt != null">
+        createAt,
+      </if>
+      <if test="editAt != null">
+        editAt,
+      </if>
+      <if test="newsContent != null">
+        newsContent,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="newsNo != null">
+        #{newsNo,jdbcType=INTEGER},
+      </if>
+      <if test="workerNo != null">
+        #{workerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="newsTitle != null">
+        #{newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editAt != null">
+        #{editAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsContent != null">
+        #{newsContent,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.gb.po.NewExample" resultType="java.lang.Long">
+    select count(*) from news
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update news
+    <set>
+      <if test="record.newsNo != null">
+        newsNo = #{record.newsNo,jdbcType=INTEGER},
+      </if>
+      <if test="record.workerNo != null">
+        workerNo = #{record.workerNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.newsTitle != null">
+        newsTitle = #{record.newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createAt != null">
+        createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.editAt != null">
+        editAt = #{record.editAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.newsContent != null">
+        newsContent = #{record.newsContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update news
+    set newsNo = #{record.newsNo,jdbcType=INTEGER},
+      workerNo = #{record.workerNo,jdbcType=VARCHAR},
+      newsTitle = #{record.newsTitle,jdbcType=VARCHAR},
+      createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      editAt = #{record.editAt,jdbcType=TIMESTAMP},
+      newsContent = #{record.newsContent,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update news
+    set newsNo = #{record.newsNo,jdbcType=INTEGER},
+      workerNo = #{record.workerNo,jdbcType=VARCHAR},
+      newsTitle = #{record.newsTitle,jdbcType=VARCHAR},
+      createAt = #{record.createAt,jdbcType=TIMESTAMP},
+      editAt = #{record.editAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.gb.po.New">
+    update news
+    <set>
+      <if test="newsTitle != null">
+        newsTitle = #{newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        createAt = #{createAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="editAt != null">
+        editAt = #{editAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="newsContent != null">
+        newsContent = #{newsContent,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where newsNo = #{newsNo,jdbcType=INTEGER}
+      and workerNo = #{workerNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gb.po.New">
+    update news
+    set newsTitle = #{newsTitle,jdbcType=VARCHAR},
+      createAt = #{createAt,jdbcType=TIMESTAMP},
+      editAt = #{editAt,jdbcType=TIMESTAMP},
+      newsContent = #{newsContent,jdbcType=LONGVARCHAR}
+    where newsNo = #{newsNo,jdbcType=INTEGER}
+      and workerNo = #{workerNo,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.gb.po.New">
+    update news
+    set newsTitle = #{newsTitle,jdbcType=VARCHAR},
+      createAt = #{createAt,jdbcType=TIMESTAMP},
+      editAt = #{editAt,jdbcType=TIMESTAMP}
+    where newsNo = #{newsNo,jdbcType=INTEGER}
+      and workerNo = #{workerNo,jdbcType=VARCHAR}
+  </update>
+</mapper>
