@@ -24,7 +24,7 @@ import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("Duplicates")
-@RestController
+@RestController("workerController")
 @RequestMapping("v1/workers")
 public class WorkerController {
     private long TOKEN_TIME_TO_LIVE = 1000 * 60 * 60 * 24;
