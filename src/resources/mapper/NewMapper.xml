@@ -3,8 +3,8 @@
 <mapper namespace="com.gb.mapper.NewMapper">
   <resultMap id="BaseResultMap" type="com.gb.po.New">
     <id column="newsNo" jdbcType="INTEGER" property="newsNo" />
-    <id column="workerNo" jdbcType="VARCHAR" property="workerNo" />
     <result column="newsTitle" jdbcType="VARCHAR" property="newsTitle" />
+    <result column="workerNo" jdbcType="VARCHAR" property="workerNo" />
     <result column="createAt" jdbcType="TIMESTAMP" property="createAt" />
     <result column="editAt" jdbcType="TIMESTAMP" property="editAt" />
   </resultMap>
@@ -70,11 +70,18 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    newsNo, workerNo, newsTitle, createAt, editAt
+    newsNo, newsTitle, workerNo, createAt, editAt
   </sql>
   <sql id="Blob_Column_List">
     newsContent
   </sql>
+
+  <select id="selectWithOffset" parameterType="com.gb.domain.PageParam" resultType="com.gb.po.New">
+    select *
+    from news
+    limit #{offset}, #{limit}
+  </select>
+
   <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.NewExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
@@ -105,19 +112,17 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="map" resultMap="ResultMapWithBLOBs">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
     select 
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from news
     where newsNo = #{newsNo,jdbcType=INTEGER}
-      and workerNo = #{workerNo,jdbcType=VARCHAR}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="map">
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
     delete from news
     where newsNo = #{newsNo,jdbcType=INTEGER}
-      and workerNo = #{workerNo,jdbcType=VARCHAR}
   </delete>
   <delete id="deleteByExample" parameterType="com.gb.po.NewExample">
     delete from news
@@ -126,10 +131,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.gb.po.New">
-    insert into news (newsNo, workerNo, newsTitle, 
+    insert into news (newsNo, newsTitle, workerNo, 
       createAt, editAt, newsContent
       )
-    values (#{newsNo,jdbcType=INTEGER}, #{workerNo,jdbcType=VARCHAR}, #{newsTitle,jdbcType=VARCHAR}, 
+    values (#{newsNo,jdbcType=INTEGER}, #{newsTitle,jdbcType=VARCHAR}, #{workerNo,jdbcType=VARCHAR}, 
       #{createAt,jdbcType=TIMESTAMP}, #{editAt,jdbcType=TIMESTAMP}, #{newsContent,jdbcType=LONGVARCHAR}
       )
   </insert>
@@ -139,11 +144,11 @@
       <if test="newsNo != null">
         newsNo,
       </if>
-      <if test="workerNo != null">
-        workerNo,
-      </if>
       <if test="newsTitle != null">
         newsTitle,
+      </if>
+      <if test="workerNo != null">
+        workerNo,
       </if>
       <if test="createAt != null">
         createAt,
@@ -159,11 +164,11 @@
       <if test="newsNo != null">
         #{newsNo,jdbcType=INTEGER},
       </if>
-      <if test="workerNo != null">
-        #{workerNo,jdbcType=VARCHAR},
-      </if>
       <if test="newsTitle != null">
         #{newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="workerNo != null">
+        #{workerNo,jdbcType=VARCHAR},
       </if>
       <if test="createAt != null">
         #{createAt,jdbcType=TIMESTAMP},
@@ -188,11 +193,11 @@
       <if test="record.newsNo != null">
         newsNo = #{record.newsNo,jdbcType=INTEGER},
       </if>
-      <if test="record.workerNo != null">
-        workerNo = #{record.workerNo,jdbcType=VARCHAR},
-      </if>
       <if test="record.newsTitle != null">
         newsTitle = #{record.newsTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workerNo != null">
+        workerNo = #{record.workerNo,jdbcType=VARCHAR},
       </if>
       <if test="record.createAt != null">
         createAt = #{record.createAt,jdbcType=TIMESTAMP},
@@ -211,8 +216,8 @@
   <update id="updateByExampleWithBLOBs" parameterType="map">
     update news
     set newsNo = #{record.newsNo,jdbcType=INTEGER},
-      workerNo = #{record.workerNo,jdbcType=VARCHAR},
       newsTitle = #{record.newsTitle,jdbcType=VARCHAR},
+      workerNo = #{record.workerNo,jdbcType=VARCHAR},
       createAt = #{record.createAt,jdbcType=TIMESTAMP},
       editAt = #{record.editAt,jdbcType=TIMESTAMP},
       newsContent = #{record.newsContent,jdbcType=LONGVARCHAR}
@@ -223,8 +228,8 @@
   <update id="updateByExample" parameterType="map">
     update news
     set newsNo = #{record.newsNo,jdbcType=INTEGER},
-      workerNo = #{record.workerNo,jdbcType=VARCHAR},
       newsTitle = #{record.newsTitle,jdbcType=VARCHAR},
+      workerNo = #{record.workerNo,jdbcType=VARCHAR},
       createAt = #{record.createAt,jdbcType=TIMESTAMP},
       editAt = #{record.editAt,jdbcType=TIMESTAMP}
     <if test="_parameter != null">
@@ -237,6 +242,9 @@
       <if test="newsTitle != null">
         newsTitle = #{newsTitle,jdbcType=VARCHAR},
       </if>
+      <if test="workerNo != null">
+        workerNo = #{workerNo,jdbcType=VARCHAR},
+      </if>
       <if test="createAt != null">
         createAt = #{createAt,jdbcType=TIMESTAMP},
       </if>
@@ -248,23 +256,22 @@
       </if>
     </set>
     where newsNo = #{newsNo,jdbcType=INTEGER}
-      and workerNo = #{workerNo,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.gb.po.New">
     update news
     set newsTitle = #{newsTitle,jdbcType=VARCHAR},
+      workerNo = #{workerNo,jdbcType=VARCHAR},
       createAt = #{createAt,jdbcType=TIMESTAMP},
       editAt = #{editAt,jdbcType=TIMESTAMP},
       newsContent = #{newsContent,jdbcType=LONGVARCHAR}
     where newsNo = #{newsNo,jdbcType=INTEGER}
-      and workerNo = #{workerNo,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.gb.po.New">
     update news
     set newsTitle = #{newsTitle,jdbcType=VARCHAR},
+      workerNo = #{workerNo,jdbcType=VARCHAR},
       createAt = #{createAt,jdbcType=TIMESTAMP},
       editAt = #{editAt,jdbcType=TIMESTAMP}
     where newsNo = #{newsNo,jdbcType=INTEGER}
-      and workerNo = #{workerNo,jdbcType=VARCHAR}
   </update>
 </mapper>

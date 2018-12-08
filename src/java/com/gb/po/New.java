@@ -1,6 +1,8 @@
 package com.gb.po;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.gb.converter.CustomDateSerializer;
 
 import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -41,6 +43,7 @@ public class New {
         this.newsTitle = newsTitle == null ? null : newsTitle.trim();
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getCreateAt() {
         return createAt;
     }
@@ -49,6 +52,7 @@ public class New {
         this.createAt = createAt;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getEditAt() {
         return editAt;
     }
