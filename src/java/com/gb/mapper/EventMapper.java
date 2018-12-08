@@ -1,7 +1,9 @@
 package com.gb.mapper;
 
+import com.gb.domain.PageParam;
 import com.gb.po.Event;
 import com.gb.po.EventExample;
+import com.gb.vo.EventVo;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -21,7 +23,7 @@ public interface EventMapper {
 
     List<Event> selectByExample(EventExample example);
 
-    Event selectByPrimaryKey(Integer eventNo);
+    EventVo selectByPrimaryKey(Integer eventNo);
 
     int updateByExampleSelective(@Param("record") Event record, @Param("example") EventExample example);
 
@@ -34,4 +36,6 @@ public interface EventMapper {
     int updateByPrimaryKeyWithBLOBs(Event record);
 
     int updateByPrimaryKey(Event record);
+
+    List<Event> selectWithOffset(PageParam pageParam);
 }

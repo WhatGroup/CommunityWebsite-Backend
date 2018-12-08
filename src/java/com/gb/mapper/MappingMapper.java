@@ -1,9 +1,11 @@
 package com.gb.mapper;
 
+import com.gb.domain.PageParam;
 import com.gb.po.Mapping;
 import com.gb.po.MappingExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface MappingMapper {
     long countByExample(MappingExample example);
@@ -27,4 +29,6 @@ public interface MappingMapper {
     int updateByPrimaryKeySelective(Mapping record);
 
     int updateByPrimaryKey(Mapping record);
+
+    List<Mapping> selectWithLimit(PageParam pageParam);
 }

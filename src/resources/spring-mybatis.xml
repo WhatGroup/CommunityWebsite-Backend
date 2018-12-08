@@ -43,6 +43,12 @@
         <property name="configLocation" value="SqlMapConfig.xml"/>
         <property name="mapperLocations" value="classpath*:mapper/*Mapper.xml"/>
         <property name="dataSource" ref="dataSource"/>
+        <property name="plugins">
+            <array>
+                <bean class="com.github.pagehelper.PageInterceptor">
+                </bean>
+            </array>
+        </property>
     </bean>
     <!--mapper批量扫描-->
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">

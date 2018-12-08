@@ -15,11 +15,11 @@ public class StringToDateConverter implements Converter<String, Date> {
             throw new NullPointerException("请传入正确数据");
         }
         try {
-            format = new SimpleDateFormat("yyyy-MM-dd");
+            format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             return format.parse(source);
         } catch (ParseException e) {
             e.printStackTrace();
-            throw new RuntimeException("请输入正确的日期格式,正确的日期格式为：yyyy-MM-dd");
+            throw new RuntimeException("请输入正确的日期格式,正确的日期格式为：yyyy-MM-dd HH:mm:ss");
         }
     }
 }

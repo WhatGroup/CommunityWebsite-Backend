@@ -1,6 +1,8 @@
 package com.gb.po;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.gb.converter.CustomDateSerializer;
 
 import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -61,26 +63,32 @@ public class Event {
         this.eventTitle = eventTitle == null ? null : eventTitle.trim();
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getApplyEnd() {
         return applyEnd;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public void setApplyEnd(Date applyEnd) {
         this.applyEnd = applyEnd;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getTrainEnd() {
         return trainEnd;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public void setTrainEnd(Date trainEnd) {
         this.trainEnd = trainEnd;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getEventEnd() {
         return eventEnd;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public void setEventEnd(Date eventEnd) {
         this.eventEnd = eventEnd;
     }
@@ -117,18 +125,22 @@ public class Event {
         this.applyNum = applyNum;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getCreateAt() {
         return createAt;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getEditAt() {
         return editAt;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public void setEditAt(Date editAt) {
         this.editAt = editAt;
     }
