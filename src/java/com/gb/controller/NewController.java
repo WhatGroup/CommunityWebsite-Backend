@@ -21,12 +21,6 @@ import java.util.List;
 public class NewController {
 
     ApplicationContext ac = new ClassPathXmlApplicationContext("spring-mybatis.xml");
-    EventMapper eventMapper = ac.getBean("eventMapper", EventMapper.class);
-    MappingMapper mappingMapper = ac.getBean("mappingMapper", MappingMapper.class);
-    TypeMapper typeMapper = ac.getBean("typeMapper", TypeMapper.class);
-    WorkerMapper workerMapper = ac.getBean("workerMapper", WorkerMapper.class);
-    TakePartMapper takePartMapper = ac.getBean("takePartMapper", TakePartMapper.class);
-    ClientMapper clientMapper = ac.getBean("clientMapper", ClientMapper.class);
     NewMapper newMapper = ac.getBean("newMapper", NewMapper.class);
 
 

@@ -66,6 +66,14 @@
   <sql id="Base_Column_List">
     typeNo, typeName
   </sql>
+
+
+  <select id="selectWithOffset" parameterType="com.gb.domain.PageParam" resultType="com.gb.po.Type">
+    select *
+    from type
+    limit #{offset}, #{limit}
+  </select>
+
   <select id="selectByExample" parameterType="com.gb.po.TypeExample" resultMap="BaseResultMap">
     select
     <if test="distinct">

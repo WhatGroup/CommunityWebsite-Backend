@@ -1,5 +1,6 @@
 package com.gb.mapper;
 
+import com.gb.domain.PageParam;
 import com.gb.po.Type;
 import com.gb.po.TypeExample;
 import org.apache.ibatis.annotations.Param;
@@ -28,4 +29,6 @@ public interface TypeMapper {
     int updateByPrimaryKeySelective(Type record);
 
     int updateByPrimaryKey(Type record);
+
+    List<Type> selectWithOffset(PageParam param);
 }
