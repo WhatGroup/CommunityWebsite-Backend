@@ -1,9 +1,11 @@
 package com.gb.mapper;
 
+import com.gb.domain.PageParam;
 import com.gb.po.Company;
 import com.gb.po.CompanyExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface CompanyMapper {
     long countByExample(CompanyExample example);
@@ -33,4 +35,6 @@ public interface CompanyMapper {
     int updateByPrimaryKeyWithBLOBs(Company record);
 
     int updateByPrimaryKey(Company record);
+
+    List<Company> selectWithOffset(PageParam param);
 }

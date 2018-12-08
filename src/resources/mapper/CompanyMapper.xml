@@ -88,6 +88,14 @@
   <sql id="Blob_Column_List">
     address, legalIdPic1, legalIdPic0, licensePic1, licensePic0
   </sql>
+
+
+  <select id="selectWithOffset" parameterType="com.gb.domain.PageParam" resultType="com.gb.po.Company">
+    select *
+    from company
+    limit #{offset}, #{limit}
+  </select>
+
   <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.CompanyExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">

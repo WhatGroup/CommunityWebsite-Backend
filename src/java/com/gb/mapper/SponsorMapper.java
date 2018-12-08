@@ -1,9 +1,11 @@
 package com.gb.mapper;
 
+import com.gb.domain.PageParam;
 import com.gb.po.Sponsor;
 import com.gb.po.SponsorExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface SponsorMapper {
     long countByExample(SponsorExample example);
@@ -33,4 +35,8 @@ public interface SponsorMapper {
     int updateByPrimaryKeyWithBLOBs(Sponsor record);
 
     int updateByPrimaryKey(Sponsor record);
+
+    List<Sponsor> selectWithOffset(PageParam param);
+
+    List<Sponsor> selectByExampleWithOffset(SponsorExample example);
 }

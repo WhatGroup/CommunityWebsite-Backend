@@ -74,6 +74,14 @@
   <sql id="Blob_Column_List">
     demand
   </sql>
+
+
+  <select id="selectWithOffset" parameterType="com.gb.domain.PageParam" resultType="com.gb.po.Sponsor">
+    select *
+    from sponsor
+    limit #{offset}, #{limit}
+  </select>
+
   <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.SponsorExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
@@ -90,6 +98,23 @@
       order by ${orderByClause}
     </if>
   </select>
+
+  <select id="selectByExampleWithOffset" parameterType="com.gb.po.SponsorExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from sponsor
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+    limit 0, 20
+  </select>
+
   <select id="selectByExample" parameterType="com.gb.po.SponsorExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
