@@ -74,7 +74,7 @@
     <select id="selectWithLimit" parameterType="com.gb.domain.PageParam" resultType="com.gb.po.Mapping">
         select *
         from mapping
-        limit #{offset},#{limit}
+        order by id desc limit #{offset},#{limit}
     </select>
     <select id="selectByExample" parameterType="com.gb.po.MappingExample" resultMap="BaseResultMap">
         select

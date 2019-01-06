@@ -93,7 +93,7 @@
   <select id="selectWithOffset" parameterType="com.gb.domain.PageParam" resultType="com.gb.po.Company">
     select *
     from company
-    limit #{offset}, #{limit}
+    order by companyNo desc limit #{offset}, #{limit}
   </select>
 
   <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.CompanyExample" resultMap="ResultMapWithBLOBs">
@@ -159,6 +159,9 @@
       #{createAt,jdbcType=TIMESTAMP}, #{address,jdbcType=LONGVARCHAR}, #{legalIdPic1,jdbcType=LONGVARCHAR}, 
       #{legalIdPic0,jdbcType=LONGVARCHAR}, #{licensePic1,jdbcType=LONGVARCHAR}, #{licensePic0,jdbcType=LONGVARCHAR}
       )
+    <selectKey resultType="Integer" order="AFTER" keyProperty="companyNo">
+      SELECT LAST_INSERT_ID() AS companyNo
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="com.gb.po.Company">
     insert into company

@@ -37,4 +37,6 @@ public interface CompanyMapper {
     int updateByPrimaryKey(Company record);
 
     List<Company> selectWithOffset(PageParam param);
+
+
 }

@@ -80,6 +80,13 @@
   <sql id="Blob_Column_List">
     address
   </sql>
+
+  <select id="selectWithOffset" parameterType="com.gb.domain.PageParam" resultType="com.gb.po.Client">
+    select *
+    from client
+    order by clientNo desc limit #{offset}, #{limit}
+  </select>
+
   <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.ClientExample" resultMap="ResultMapWithBLOBs">
     select
     <if test="distinct">
@@ -137,6 +144,10 @@
       #{sex,jdbcType=INTEGER}, #{birthday,jdbcType=DATE}, #{phone,jdbcType=VARCHAR}, 
       #{email,jdbcType=VARCHAR}, #{idCard,jdbcType=VARCHAR}, #{grade,jdbcType=INTEGER}, 
       #{createAt,jdbcType=TIMESTAMP}, #{address,jdbcType=LONGVARCHAR})
+
+    <selectKey resultType="Integer" order="AFTER" keyProperty="clientNo">
+      SELECT LAST_INSERT_ID() AS clientNo
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="com.gb.po.Client">
     insert into client

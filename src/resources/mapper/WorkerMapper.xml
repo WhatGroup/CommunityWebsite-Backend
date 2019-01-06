@@ -141,6 +141,9 @@
       #{title,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
       #{idCard,jdbcType=VARCHAR}, #{createAt,jdbcType=TIMESTAMP}, #{address,jdbcType=LONGVARCHAR}
       )
+    <selectKey resultType="Integer" order="AFTER" keyProperty="workerNo">
+      SELECT LAST_INSERT_ID() AS workerNo
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="com.gb.po.Worker">
     insert into worker

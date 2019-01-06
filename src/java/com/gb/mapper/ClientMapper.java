@@ -1,5 +1,6 @@
 package com.gb.mapper;
 
+import com.gb.domain.PageParam;
 import com.gb.po.Client;
 import com.gb.po.ClientExample;
 import org.apache.ibatis.annotations.Param;
@@ -34,4 +35,6 @@ public interface ClientMapper {
     int updateByPrimaryKeyWithBLOBs(Client record);
 
     int updateByPrimaryKey(Client record);
+
+    List<Client> selectWithOffset(PageParam param);
 }

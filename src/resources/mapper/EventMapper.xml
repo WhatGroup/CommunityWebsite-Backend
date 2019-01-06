@@ -105,7 +105,7 @@
     <select id="selectWithOffset" parameterType="com.gb.domain.PageParam" resultType="com.gb.po.Event">
         select *
         from event
-        limit #{offset}, #{limit}
+        order by eventNo desc limit #{offset}, #{limit}
     </select>
 
     <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.EventExample" resultMap="ResultMapWithBLOBs">

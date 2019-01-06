@@ -28,4 +28,6 @@ public interface TakePartMapper {
     int updateByPrimaryKeySelective(TakePart record);
 
     int updateByPrimaryKey(TakePart record);
+
+    List<TakePart> selectByExampleWithOffset(TakePartExample example);
 }

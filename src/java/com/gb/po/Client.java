@@ -1,6 +1,8 @@
 package com.gb.po;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.gb.converter.CustomDateSerializer;
 
 import java.util.Date;
 
@@ -60,6 +62,7 @@ public class Client {
         this.sex = sex;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getBirthday() {
         return birthday;
     }
@@ -100,6 +103,7 @@ public class Client {
         this.grade = grade;
     }
 
+    @JsonSerialize(using = CustomDateSerializer.class)
     public Date getCreateAt() {
         return createAt;
     }

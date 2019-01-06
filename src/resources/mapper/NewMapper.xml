@@ -79,7 +79,7 @@
   <select id="selectWithOffset" parameterType="com.gb.domain.PageParam" resultType="com.gb.po.New">
     select *
     from news
-    limit #{offset}, #{limit}
+    order by newsNo desc limit #{offset}, #{limit}
   </select>
 
   <select id="selectByExampleWithBLOBs" parameterType="com.gb.po.NewExample" resultMap="ResultMapWithBLOBs">

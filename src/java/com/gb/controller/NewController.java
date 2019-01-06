@@ -16,6 +16,7 @@ import java.util.Date;
 import java.util.List;
 
 @SuppressWarnings("Duplicates")
+@CrossOrigin
 @RestController("newController")
 @RequestMapping("v1/news")
 public class NewController {

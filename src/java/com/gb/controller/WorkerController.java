@@ -8,7 +8,6 @@ import com.gb.mapper.MappingMapper;
 import com.gb.mapper.MatchMapper;
 import com.gb.mapper.TokenMapper;
 import com.gb.mapper.WorkerMapper;
-import com.gb.po.Mapping;
 import com.gb.po.*;
 import com.gb.util.JwtUtils;
 import com.gb.util.StringUtils;
@@ -27,7 +26,7 @@ import java.util.List;
 @RestController("workerController")
 @RequestMapping("v1/workers")
 public class WorkerController {
-    private long TOKEN_TIME_TO_LIVE = 1000 * 60 * 60 * 24;
+    private static final long TOKEN_TIME_TO_LIVE = 1000 * 60 * 60 * 24;
 
     ApplicationContext ac = new ClassPathXmlApplicationContext("spring-mybatis.xml");
     WorkerMapper workerMapper = ac.getBean("workerMapper", WorkerMapper.class);
@@ -105,10 +104,10 @@ public class WorkerController {
         }
 
         //TODO 将密码和md5加密后的密码存入数据库，方便开发时调试
-        Mapping mapping = new Mapping();
-        mapping.setPassword(worker.getWorkerPass());
-        mapping.setEncryption(StringUtils.md5(worker.getWorkerPass()));
-        mappingMapper.insert(mapping);
+//        Mapping mapping = new Mapping();
+//        mapping.setPassword(worker.getWorkerPass());
+//        mapping.setEncryption(StringUtils.md5(worker.getWorkerPass()));
+//        mappingMapper.insert(mapping);
 
 
         //设置创建日期
@@ -118,7 +117,7 @@ public class WorkerController {
         //添加账号
         workerMapper.insert(worker);
 
-        return new Message(200, "注册成功");
+        return new Message(200, worker.getWorkerNo() + "");
     }
 
     @GetMapping("token")
@@ -237,7 +236,7 @@ public class WorkerController {
         }
 
         workerMapper.updateByPrimaryKeySelective(worker);
-        return new Message(403, "修改成功");
+        return new Message(200, "修改成功");
 
     }
 
