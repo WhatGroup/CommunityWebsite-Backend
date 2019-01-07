@@ -63,7 +63,6 @@ public class CompanyController {
         return new PageInfo(pageParam, eventList);
     }
 
-
     @PostMapping
     public Message registerCompany(@RequestBody Company company, HttpServletResponse response) {
         company.setPassword(StringUtils.md5(company.getPassword()));

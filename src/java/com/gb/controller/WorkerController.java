@@ -122,7 +122,26 @@ public class WorkerController {
 
     @GetMapping("token")
     public Message getToken(String workerNo, String password, HttpServletResponse response) {
-        Worker worker = workerMapper.selectByPrimaryKey(workerNo);
+        Worker worker = null;
+        if (StringUtils.isDigitsOnly(workerNo)) {
+            WorkerExample we = new WorkerExample();
+            WorkerExample.Criteria wc = we.createCriteria();
+            wc.andPhoneEqualTo(workerNo);
+            List<Worker> wl = workerMapper.selectByExample(we);
+            if (wl.isEmpty()) {
+                worker = workerMapper.selectByPrimaryKey(workerNo);
+            } else {
+                worker = wl.get(0);
+            }
+        } else {
+            WorkerExample we = new WorkerExample();
+            WorkerExample.Criteria wc = we.createCriteria();
+            wc.andEmailEqualTo(workerNo);
+            List<Worker> wl = workerMapper.selectByExample(we);
+            if (!wl.isEmpty()) {
+                worker = wl.get(0);
+            }
+        }
         if (worker == null) {
             response.setStatus(403);
             return new Message(403, "该工号尚未注册");
@@ -131,7 +150,7 @@ public class WorkerController {
             response.setStatus(403);
             return new Message(403, "密码错误");
         }
-        String tokenValue = JwtUtils.createJWT(workerNo, "wgb", "", -1);
+        String tokenValue = JwtUtils.createJWT(worker.getWorkerNo(), "wgb", "", -1);
         Token token = new Token();
         token.setTokenValue(tokenValue);
         token.setExpiredTime(new Date(System.currentTimeMillis() + TOKEN_TIME_TO_LIVE));
@@ -150,7 +169,6 @@ public class WorkerController {
             response.setStatus(401);
             return new Message(401, "退出登录失败，无效token");
         }
-
         tokenMapper.deleteByExample(tokenExample);
         return new Message(200, "退出登录成功");
     }

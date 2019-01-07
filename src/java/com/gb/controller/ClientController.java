@@ -87,11 +87,9 @@ public class ClientController {
         //设置创建日期
         client.setCreateAt(new Date());
         client.setClientPass(StringUtils.md5(client.getClientPass()));
-
+        client.setGrade(0);
         //添加账号
         clientMapper.insert(client);
-
-
         return new Message(200, client.getClientNo() + "");
     }
 
@@ -180,8 +178,31 @@ public class ClientController {
     }
 
     @GetMapping("token")
-    public Message getToken(int clientNo, String password, HttpServletResponse response) {
-        Client client = clientMapper.selectByPrimaryKey(clientNo);
+    public Message getToken(String clientNo, String password, HttpServletResponse response) {
+        Client client = null;
+        if (StringUtils.isDigitsOnly(clientNo)) {
+            ClientExample ce = new ClientExample();
+            ClientExample.Criteria cc = ce.createCriteria();
+            cc.andPhoneEqualTo(clientNo);
+            List<Client> cl = clientMapper.selectByExample(ce);
+            if (cl.isEmpty()) {
+                long l = Long.parseLong(clientNo);
+                if (l < Integer.MAX_VALUE) {
+                    client = clientMapper.selectByPrimaryKey((int) l);
+                }
+            } else {
+                client = cl.get(0);
+            }
+        } else {
+            ClientExample ce = new ClientExample();
+            ClientExample.Criteria cc = ce.createCriteria();
+            cc.andEmailEqualTo(clientNo);
+            List<Client> cl = clientMapper.selectByExample(ce);
+            if (!cl.isEmpty()) {
+                client = cl.get(0);
+            }
+        }
+//        Client client = clientMapper.selectByPrimaryKey(Integer.parseInt(clientNo));
         if (client == null) {
             response.setStatus(403);
             return new Message(403, "暂无该用户");
@@ -190,7 +211,7 @@ public class ClientController {
             response.setStatus(403);
             return new Message(403, "密码错误");
         }
-        String tokenValue = JwtUtils.createJWT(clientNo + "", "wgb", "", -1);
+        String tokenValue = JwtUtils.createJWT(client.getClientNo() + "", "wgb", "", -1);
         Token token = new Token();
         token.setTokenValue(tokenValue);
         token.setExpiredTime(new Date(System.currentTimeMillis() + TOKEN_TIME_TO_LIVE));

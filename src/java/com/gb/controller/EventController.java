@@ -111,9 +111,17 @@ public class EventController {
         criteria.andEventNoEqualTo(eventNo);
         criteria.andClientNoEqualTo(clientNo);
         TakePart takePart = takePartMapper.selectByExample(takePartExample).get(0);
+
+
+        //员工表增加分数
+        Client client = clientMapper.selectByPrimaryKey(clientNo);
+        client.setGrade(client.getGrade() + assess.getGrade() - takePart.getGrade());
+        clientMapper.updateByPrimaryKeySelective(client);
+
         takePart.setGrade(assess.getGrade());
         takePartMapper.updateByPrimaryKey(takePart);
-        return new Message(200, "评定成功");
+
+        return new Message(200, client.getGrade() + "");
     }
 }
 
