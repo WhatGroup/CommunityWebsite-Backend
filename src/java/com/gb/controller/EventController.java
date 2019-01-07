@@ -31,7 +31,7 @@ public class EventController {
     ClientMapper clientMapper = ac.getBean("clientMapper", ClientMapper.class);
 
     @GetMapping
-    public PageInfo getEvents(@RequestParam(required = false, defaultValue = "0") int offset, @RequestParam(required = false, defaultValue = "20") int limit, String sort, @RequestHeader("Authorization") String tokenValue, HttpServletResponse response) {
+    public PageInfo getEvents(@RequestParam(required = false, defaultValue = "0") int offset, @RequestParam(required = false, defaultValue = "20") int limit, String sort, HttpServletResponse response) {
 //        EventExample eventExample = new EventExample();
 //        List<Event> list = eventMapper.selectByExample(eventExample);
 //        MappingExample.Criteria criteria = mappingExample.createCriteria();
@@ -46,7 +46,7 @@ public class EventController {
     }
 
     @GetMapping("{event_no}")
-    public EventVo getEvent(@RequestHeader("Authorization") String tokenValue, HttpServletResponse response, @PathVariable("event_no") Integer eventNo) {
+    public EventVo getEvent(HttpServletResponse response, @PathVariable("event_no") Integer eventNo) {
         EventVo eventVo = eventMapper.selectByPrimaryKey(eventNo);
         Worker worker = workerMapper.selectByPrimaryKey(eventVo.getWorkerNo());
         eventVo.setWorkerSex(worker.getSex());
@@ -83,7 +83,7 @@ public class EventController {
     }
 
     @GetMapping("{event_no}/clients")
-    public PageInfo getTakePartEventClients(@RequestParam(required = false, defaultValue = "0") int offset, @RequestParam(required = false, defaultValue = "20") int limit, String sort, @RequestHeader("Authorization") String tokenValue, HttpServletResponse response, @PathVariable("event_no") Integer eventNo) {
+    public PageInfo getTakePartEventClients(@RequestParam(required = false, defaultValue = "0") int offset, @RequestParam(required = false, defaultValue = "20") int limit, String sort, HttpServletResponse response, @PathVariable("event_no") Integer eventNo) {
         TakePartExample takePartExample = new TakePartExample();
         TakePartExample.Criteria criteria = takePartExample.createCriteria();
         criteria.andEventNoEqualTo(eventNo);

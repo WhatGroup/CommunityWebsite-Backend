@@ -157,8 +157,7 @@ public class WorkerController {
 
 
     @GetMapping("{worker_no}")
-    public Worker getWorkerInfo(@RequestHeader("Authorization") String tokenValue, @PathVariable("worker_no") String workerNo, HttpServletResponse response) throws InvalidTokenException, InvalidWorkerNoException {
-        Claims claims = checkToken(tokenValue);
+    public Worker getWorkerInfo(@PathVariable("worker_no") String workerNo, HttpServletResponse response) throws InvalidTokenException, InvalidWorkerNoException {
         Worker w = workerMapper.selectByPrimaryKey(workerNo);
         if (w == null) {
             throw new InvalidWorkerNoException();
