@@ -3,6 +3,7 @@ package com.gb.controller;
 import com.gb.domain.Assess;
 import com.gb.domain.PageInfo;
 import com.gb.domain.PageParam;
+import com.gb.exception.EventInExistException;
 import com.gb.info.Message;
 import com.gb.mapper.*;
 import com.gb.po.*;
@@ -46,8 +47,11 @@ public class EventController {
     }
 
     @GetMapping("{event_no}")
-    public EventVo getEvent(HttpServletResponse response, @PathVariable("event_no") Integer eventNo) {
+    public EventVo getEvent(HttpServletResponse response, @PathVariable("event_no") Integer eventNo) throws EventInExistException {
         EventVo eventVo = eventMapper.selectByPrimaryKey(eventNo);
+        if (eventVo == null) {
+            throw new EventInExistException();
+        }
         Worker worker = workerMapper.selectByPrimaryKey(eventVo.getWorkerNo());
         eventVo.setWorkerSex(worker.getSex());
         eventVo.setWorkerName(worker.getWorkerName());
@@ -56,6 +60,12 @@ public class EventController {
         Type type = typeMapper.selectByPrimaryKey(eventVo.getTypeNo());
         eventVo.setTypeName(type.getTypeName());
         return eventVo;
+    }
+
+    @ExceptionHandler(EventInExistException.class)
+    public Message eventInExistException(HttpServletResponse response) {
+        response.setStatus(404);
+        return new Message(404, "活动不存在");
     }
 
     @PostMapping()
