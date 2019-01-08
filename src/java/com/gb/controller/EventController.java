@@ -74,6 +74,15 @@ public class EventController {
         event.setWorkerNo(claims.getId());
         event.setCreateAt(new Date());
         event.setEditAt(new Date());
+        if (event.getTypeNo() == null)
+            event.setTypeNo(123);
+        if (event.getApplyNum() == null)
+            event.setApplyNum(0);
+        if (event.getIfTrain() == null)
+            event.setIfTrain(0);
+        if (event.getTrainEnd() == null) {
+            event.setTrainEnd(new Date());
+        }
         eventMapper.insert(event);
         return new Message(200, "创建活动成功");
     }
